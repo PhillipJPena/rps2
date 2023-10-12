@@ -63,6 +63,7 @@
     >Play Round</button
   >
   <button on:click={clearScore}>Clear</button>
+  <p>For shits and giggles</p>
 </main>
 
 <style>
