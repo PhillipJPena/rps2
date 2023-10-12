@@ -1,47 +1,74 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  const options = ["rock", "paper", "scissors"];
+  let playerChoice = "empty";
+  let results = " ";
+  let computerScore = 0;
+  let playerScore = 1;
+
+  const play = (player) => {
+    const choiceNumber = Math.floor(Math.random() * 3);
+    let computer = options[choiceNumber];
+    let computerMessage = `Computer Chose: ${computer}. `;
+
+    if (player == computer) {
+      results = `${computerMessage}It's a tie.`;
+    } else if (player == "rock") {
+      if (computer == "paper") {
+        results = `${computerMessage}You lose...`;
+        computerScore++;
+      } else {
+        results = `${computerMessage}You win!`;
+        playerScore++;
+      }
+    } else if (player == "paper") {
+      if (computer == "scissors") {
+        results = `${computerMessage}You lose...`;
+        computerScore++;
+      } else {
+        results = `${computerMessage}You win!`;
+        playerScore++;
+      }
+    } else {
+      if (computer == "rock") {
+        results = `${computerMessage}You lose...`;
+        computerScore++;
+      } else {
+        results = `${computerMessage}You win!`;
+        playerScore++;
+      }
+    }
+    playerChoice = "empty";
+  };
+
+  const clearScore = () => {
+    playerScore = 0;
+    computerScore = 0;
+    results = "";
+  };
 </script>
 
 <main>
+  <h1>Rock Paper Scissors</h1>
+  <p>Player Choice: {playerChoice}</p>
   <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+    <p>player: {playerScore}</p>
+    <p>computer: {computerScore}</p>
   </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <p>Choose rock, paper, scissors</p>
+  <p>{results}</p>
+  {#each options as option}
+    <button on:click={() => (playerChoice = option)}>{option}</button>
+  {/each}
+  <button disabled={playerChoice == "empty"} on:click={() => play(playerChoice)}
+    >Play Round</button
+  >
+  <button on:click={clearScore}>Clear</button>
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
   }
 </style>
